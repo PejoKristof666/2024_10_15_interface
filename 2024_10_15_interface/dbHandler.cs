@@ -76,12 +76,12 @@ namespace _2024_10_15_interface
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
-
+                MessageBox.Show("Sikeres regiszt");
             }
             catch (Exception e)
             {
 
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message + "Sikertelen regiszt");
             }
         }
 
@@ -93,6 +93,7 @@ namespace _2024_10_15_interface
                 string query = $"select * from {tableName}";
                 MySqlCommand command = new MySqlCommand(query,connection);
                 MySqlDataReader read = command.ExecuteReader();
+                user.allUser.Clear();
                 while (read.Read())
                 {
                     user oneUser = new user();

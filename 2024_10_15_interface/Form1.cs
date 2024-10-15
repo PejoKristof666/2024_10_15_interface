@@ -23,7 +23,6 @@ namespace _2024_10_15_interface
         public void Start()
         {
             db = new dbHandler();
-            db.readAll();
             guna2TextBox2.PasswordChar = '*';
             guna2Button1.Click += LoginEvent;
             guna2Button2.Click += RegisterEvent;
@@ -31,18 +30,32 @@ namespace _2024_10_15_interface
 
         public void LoginEvent(object s, EventArgs e)
         {
+            db.readAll();
             foreach (user item in user.allUser)
             {
                 if (guna2TextBox1.Text == item.username && guna2TextBox2.Text == item.password)
                 {
                     MessageBox.Show("Sikeres Login");
+
+                    game G = new game(item);
+                    G.Show();
+                    this.Hide();
+                    G.FormClosing += (ss, ee) =>
+                    {
+                        Application.Exit();
+                    };
+
                     break;
                 }
             }
         }
         public void RegisterEvent(object s, EventArgs e)
         {
-
+            user oneUser = new user();
+            oneUser.username = guna2TextBox1.Text;
+            oneUser.password = guna2TextBox2.Text;
+            oneUser.point = 0;
+            db.InsertOne(oneUser);
         }
     }
 }
